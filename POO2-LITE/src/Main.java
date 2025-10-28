@@ -6,16 +6,16 @@ import javax.swing.*;
  * Ponto de entrada da aplicação. Responsável por exibir a splash screen
  * inicial e, após a carga, abrir a interface principal da biblioteca.
  */
-public class BibliotecaApp {
+public class Main {
 
-    private BibliotecaApp() {
+    private Main() {
         // Evita instanciação
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> { // manda o código rodar na fila certa do Swing, assim a tela não trava nem buga.”
             configurarInterface();
-a
+
             SplashScreenWindow splash = new SplashScreenWindow();
             splash.setVisible(true);
 
@@ -47,12 +47,12 @@ a
      * Instancia as classes de domínio e abre a interface gráfica principal.
      */
     private static void iniciarAplicacao() {
-        Biblioteca biblioteca = new Biblioteca();
-        biblioteca.carregarDados(); // Carrega dados salvos no txt
+        // // Biblioteca biblioteca = new Biblioteca();
+        // // biblioteca.carregarDados(); // Carrega dados salvos no txt
 
-        BibliotecaUI ui = new BibliotecaUI(biblioteca);
-        ui.setLocationRelativeTo(null); // Centraliza a janela
-        ui.setVisible(true);
+        // // BibliotecaUI ui = new BibliotecaUI(biblioteca);
+        // // ui.setLocationRelativeTo(null); // Centraliza a janela
+        // // ui.setVisible(true);
     }
 
     /**
