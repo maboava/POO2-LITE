@@ -1,19 +1,52 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class Main {
+/**
+ * Ponto de entrada da aplicação. Responsável por exibir a splash screen
+ * inicial e, após a carga, abrir a interface principal da biblioteca.
+ */
+
     public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> { // manda o código rodar na fila certa do Swing, assim a tela não trava nem buga.”
+            configurarInterface();
 
             SplashScreenWindow splash = new SplashScreenWindow();
             splash.setVisible(true);
 
-            Timer timer = new Timer(3000, event -> { 
-                splash.dispose(); 
+            Timer timer = new Timer(3000, event -> { // Simula tempo de carga
+                splash.dispose(); // Fecha a splash screen
                 iniciarAplicacao();
             });
-            timer.setRepeats(false);
-            timer.start(); 
+            timer.setRepeats(false); // Executa apenas uma vez
+            timer.start(); // Inicia o timer
         });
+    }
+
+    /**
+     * Garante que o visual da aplicação acompanhe o do sistema operacional.
+     */
+    private static void configurarInterface() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {
+            // Mantém o look and feel padrão em caso de erro.
+        }
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
+        UIManager.put("OptionPane.yesButtonText", "Sim");
+        UIManager.put("OptionPane.noButtonText", "Não");
+        UIManager.put("OptionPane.okButtonText", "OK");
+    }
+
+    /**
+     * Instancia as classes de domínio e abre a interface gráfica principal.
+     */
+    private static void iniciarAplicacao() {
+        Biblioteca biblioteca = new Biblioteca();
+        biblioteca.carregarDados(); // Carrega dados salvos no txt
+
+        BibliotecaUI ui = new BibliotecaUI(biblioteca);
+        ui.setLocationRelativeTo(null); // Centraliza a janela
+        ui.setVisible(true);
     }
 
     /**
@@ -58,4 +91,3 @@ public class Main {
         }
     }
 }
-
