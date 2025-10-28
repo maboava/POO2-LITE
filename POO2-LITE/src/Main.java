@@ -64,11 +64,11 @@ public class Main {
             fundo.setBackground(new Color(18, 66, 114));
             fundo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-            JLabel titulo = new JLabel("Biblioteca Uniguaçu", SwingConstants.CENTER);
+            JLabel titulo = new JLabel("Mercearia do Seu Zé LTDA", SwingConstants.CENTER);
             titulo.setFont(new Font("Serif", Font.BOLD, 28));
             titulo.setForeground(Color.WHITE);
 
-            JLabel subtitulo = new JLabel("Carregando recursos...", SwingConstants.CENTER);
+            JLabel subtitulo = new JLabel("Carregando produtos...", SwingConstants.CENTER);
             subtitulo.setFont(new Font("SansSerif", Font.PLAIN, 16));
             subtitulo.setForeground(Color.WHITE);
 
