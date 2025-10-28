@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -5,11 +6,16 @@ import javax.swing.*;
  * Ponto de entrada da aplicação. Responsável por exibir a splash screen
  * inicial e, após a carga, abrir a interface principal da biblioteca.
  */
+public class BibliotecaApp {
+
+    private BibliotecaApp() {
+        // Evita instanciação
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> { // manda o código rodar na fila certa do Swing, assim a tela não trava nem buga.”
             configurarInterface();
-
+a
             SplashScreenWindow splash = new SplashScreenWindow();
             splash.setVisible(true);
 
