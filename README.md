@@ -147,21 +147,6 @@ A interface gráfica foi construída com o **pacote `javax.swing`**, utilizando:
 
 ---
 
-## 📸 Exemplo Visual (Sugestão)
-
-```
-╔══════════════════════════════════╗
-║    SISTEMA DE CADASTRO DE PRODUTOS    ║
-╠══════════════════════════════════╣
-║ [1] Cadastrar Produto            ║
-║ [2] Listar Produtos              ║
-║ [3] Atualizar Produto            ║
-║ [4] Excluir Produto              ║
-║ [5] Sair                         ║
-╚══════════════════════════════════╝
-```
-
----
 
 ## 📚 Referências
 
