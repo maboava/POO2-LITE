@@ -21,6 +21,121 @@ Trabalho apresentado ao Professor Me. **Bruno Luiz Schuster Rech**, como requisi
 
 ---
 
+---
+
+# README — Divisão de Tarefas do Projeto (POO1 - 2º Bimestre)
+
+## 📌 Objetivo do Projeto
+Desenvolver um sistema de cadastro de produtos em Java utilizando Swing, incluindo:
+- Menu inicial
+- Interface gráfica
+- CRUD completo (Create, Read, Update, Delete)
+- JTable atualizada dinamicamente
+- Validações obrigatórias
+
+---
+
+## 📌 Pontos-Chave do Sistema
+
+### 1. Menu Inicial
+- Opções: Cadastrar Produto, Listar Produtos, Atualizar Produto, Excluir Produto, Sair.
+
+### 2. Cadastro de Produtos (Create)
+- Campos: código (único), nome, descrição, preço, quantidade.
+
+### 3. Listagem de Produtos (Read)
+- Exibir todos os produtos em uma JTable atualizada automaticamente.
+
+### 4. Atualização de Produtos (Update)
+- Buscar produto pelo código.
+- Permitir alterar nome, descrição, preço e quantidade.
+
+### 5. Exclusão de Produtos (Delete)
+- Excluir produto pelo código com verificação prévia.
+
+### 6. Interface Gráfica (Swing)
+- JFrames e JDialogs.
+- Tabela dinâmica.
+- Botões, validações e mensagens amigáveis.
+
+### 7. Validações Obrigatórias
+- Código único na criação.
+- Código existente na atualização e exclusão.
+- Preço e quantidade devem ser valores numéricos válidos.
+
+---
+
+# 👥 Divisão de Atividades por Integrante
+
+## 👩 Tais — Classe Produto + Gerenciamento de Dados (DAO)
+Responsável por:
+- Criar classe `Produto` com atributos e métodos.
+- Criar classe `ProdutoDAO` ou `GerenciadorProdutos`.
+- Implementar métodos:
+  - adicionarProduto()
+  - buscarProduto()
+  - atualizarProduto()
+  - removerProduto()
+  - listarProdutos()
+- Garantir unicidade do código.
+
+---
+
+## 👨 Matheus — Tela de Cadastro + Validações
+Responsável por:
+- Criar a tela de Cadastro de Produto com Swing.
+- Inserção dos campos (código, nome, descrição, preço, quantidade).
+- Implementar botão "Salvar".
+- Validar:
+  - código duplicado
+  - campos vazios
+  - campos numéricos
+
+---
+
+## 👨‍🎓 Kauan — Tela de Listagem (JTable)
+Responsável por:
+- Criar tela contendo JTable.
+- Preencher tabela com produtos do DAO.
+- Atualizar automaticamente após operações.
+- Criar modelo de tabela (DefaultTableModel).
+
+---
+
+## 👩‍💻 Nichole — Tela de Atualização
+Responsável por:
+- Criar tela para inserir o código e buscar dados.
+- Exibir dados nos campos e permitir edição.
+- Validar existência do código.
+- Atualizar dados no DAO.
+- Atualizar tabela após alterações.
+
+---
+
+## 👨 Rafael — Exclusão + Menu Inicial
+Responsável por:
+- Criar tela para excluir produto pelo código.
+- Validar se o código existe.
+- Criar Menu Inicial com todas as opções.
+- Implementar ação de "Sair" do sistema.
+
+---
+
+# 🔄 Integração Final (Todos)
+- Testar todas as telas.
+- Garantir que a tabela atualize após cada operação.
+- Revisar mensagens, layout e navegação.
+- Preparar apresentação final.
+
+---
+
+# 📅 Prazo de Entrega
+**02/12/2025 — até as 19h.**
+Avaliação em sala por ordem de chegada.
+
+
+---
+
 ## 📌 Objetivo
 
 Desenvolver um **sistema de cadastro de produtos** em **Java**, aplicando os conceitos fundamentais de **Programação Orientada a Objetos (POO)** e integrando uma **interface gráfica** com **Swing**.
