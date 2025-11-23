@@ -23,19 +23,8 @@ Trabalho apresentado ao Professor Me. **Bruno Luiz Schuster Rech**, como requisi
 
 ---
 
-# README — Divisão de Tarefas do Projeto (POO1 - 2º Bimestre)
+# 😒 Divisão de Tarefas do Projeto (POO1 - 2º Bimestre)
 
-## 📌 Objetivo do Projeto
-Desenvolver um sistema de cadastro de produtos em Java utilizando Swing, incluindo:
-- Menu inicial
-- Interface gráfica
-- CRUD completo (Create, Read, Update, Delete)
-- JTable atualizada dinamicamente
-- Validações obrigatórias
-
----
-
-## 📌 Pontos-Chave do Sistema
 
 ### 1. Menu Inicial
 - Opções: Cadastrar Produto, Listar Produtos, Atualizar Produto, Excluir Produto, Sair.
@@ -67,72 +56,80 @@ Desenvolver um sistema de cadastro de produtos em Java utilizando Swing, incluin
 
 # 👥 Divisão de Atividades por Integrante
 
-## 👩 Tais — Classe Produto + Gerenciamento de Dados (DAO)
+---
+
+# 👩 Tais — Classe Produto + Manipulação de Arquivo TXT Base
 Responsável por:
-- Criar classe `Produto` com atributos e métodos.
-- Criar classe `ProdutoDAO` ou `GerenciadorProdutos`.
-- Implementar métodos:
-  - adicionarProduto()
-  - buscarProduto()
-  - atualizarProduto()
-  - removerProduto()
-  - listarProdutos()
-- Garantir unicidade do código.
+- Criar a classe Produto com os atributos: código, nome, descrição, preço, quantidade.
+- Criar a classe ProdutoRepositoryTXT com métodos:
+  - salvarProduto(Produto p)
+  - lerTodosProdutos()
+  - atualizarProduto(Produto p)
+  - excluirProduto(codigo)
+- Cada produto é salvo em linhas no formato:
+  codigo;nome;descricao;preco;quantidade
+- Trabalhar exclusivamente com o arquivo:
+  produtos.txt
 
 ---
 
-## 👨 Matheus — Tela de Cadastro + Validações
+# 👨 Matheus — Tela de Cadastro (Create) + Salvamento Independente em TXT
 Responsável por:
-- Criar a tela de Cadastro de Produto com Swing.
-- Inserção dos campos (código, nome, descrição, preço, quantidade).
-- Implementar botão "Salvar".
-- Validar:
-  - código duplicado
-  - campos vazios
-  - campos numéricos
+- Criar tela de cadastro com Swing.
+- Criar classe CadastroTXTManager.
+- Validar campos: código não vazio, preço numérico, quantidade numérica.
+- Salvar cada cadastro no arquivo:
+  cadastro_temp.txt
 
 ---
 
-## 👨‍🎓 Kauan — Tela de Listagem (JTable)
+# 👨‍🎓 Kauan — Listagem (Read) via JTable + TXT Independente
 Responsável por:
-- Criar tela contendo JTable.
-- Preencher tabela com produtos do DAO.
-- Atualizar automaticamente após operações.
-- Criar modelo de tabela (DefaultTableModel).
+- Desenvolver uma tela exclusiva para listagem de produtos usando Swing.
+- Criar uma JTable configurada com colunas: Código, Nome, Descrição, Preço, Quantidade.
+- Implementar um método para ler os dados do arquivo:
+  lista_temp.txt
+- Converter cada linha do arquivo em uma linha da JTable.
+- Criar um botão "Recarregar" ou método automático para atualizar a tabela sempre que o arquivo for modificado.
+- Garantir que a tabela seja montada mesmo se o arquivo estiver vazio (tabela vazia, sem erro).
+- Implementar tratamento de erros para arquivos ausentes ou linhas mal formatadas.
 
 ---
 
-## 👩‍💻 Nichole — Tela de Atualização
+# 👩‍💻 Nichole — Atualização (Update) + Manipulação de TXT Independente
 Responsável por:
-- Criar tela para inserir o código e buscar dados.
-- Exibir dados nos campos e permitir edição.
-- Validar existência do código.
-- Atualizar dados no DAO.
-- Atualizar tabela após alterações.
+- Criar tela para atualização de produtos via código.
+- Ler, localizar e editar o produto no arquivo:
+  update_temp.txt
+- Regravar arquivo atualizado.
+- Sistema totalmente independente.
 
 ---
 
-## 👨 Rafael — Exclusão + Menu Inicial
+# 👨 Rafael — Exclusão (Delete) + Menu Inicial Independente
 Responsável por:
-- Criar tela para excluir produto pelo código.
-- Validar se o código existe.
-- Criar Menu Inicial com todas as opções.
-- Implementar ação de "Sair" do sistema.
+- Desenvolver uma tela específica para excluir produtos informando apenas o código.
+- Ler o arquivo delete_temp.txt, localizar a linha com o código informado e removê-la.
+- Regravar o arquivo sem a linha excluída, garantindo que nenhum outro dado seja alterado.
+- Exibir mensagens claras de sucesso ou erro (ex.: "Código não encontrado").
+- Implementar o Menu Inicial independente, contendo botões para:
+  - Cadastrar
+  - Listar
+  - Atualizar
+  - Excluir
+  - Sair
+- Cada botão pode abrir apenas uma mensagem fictícia (placeholder), já que o módulo é isolado.
+- Tratar erros caso o arquivo não exista, criando-o automaticamente se necessário.
 
 ---
 
-# 🔄 Integração Final (Todos)
-- Testar todas as telas.
-- Garantir que a tabela atualize após cada operação.
-- Revisar mensagens, layout e navegação.
-- Preparar apresentação final.
-
----
-
-# 📅 Prazo de Entrega
-**02/12/2025 — até as 19h.**
-Avaliação em sala por ordem de chegada.
-
+# 🔄 Integração Final (Somente no Fim)
+Após cada integrante finalizar seu módulo isolado, o grupo pode unificar:
+- classes,
+- telas,
+- métodos de acesso,
+- e arquivos TXT (opcional),
+para formar o sistema completo funcionando em conjunto.
 
 ---
 
