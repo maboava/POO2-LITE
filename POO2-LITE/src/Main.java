@@ -1,7 +1,7 @@
 
 import java.awt.*;
 import javax.swing.*;
-import tela.TelaListagemProduto;
+import telas.TelaListagemProduto;
 
 /**
  * Ponto de entrada da aplicação. Responsável por exibir a splash screen
@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> { // manda o código rodar na fila certa do Swing, assim a tela não trava nem buga.”
             configurarInterface();
-
+ 
             SplashScreenWindow splash = new SplashScreenWindow();
             splash.setVisible(true);
 
