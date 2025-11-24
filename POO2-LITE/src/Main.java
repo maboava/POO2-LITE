@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import javax.swing.*;
+import tela.TelaListagemProduto;
 
 /**
  * Ponto de entrada da aplicação. Responsável por exibir a splash screen
@@ -21,6 +22,7 @@ public class Main {
 
             Timer timer = new Timer(3000, event -> { // Simula tempo de carga
                 splash.dispose(); // Fecha a splash screen
+
                 iniciarAplicacao();
             });
             timer.setRepeats(false); // Executa apenas uma vez
@@ -47,12 +49,16 @@ public class Main {
      * Instancia as classes de domínio e abre a interface gráfica principal.
      */
     private static void iniciarAplicacao() {
+
         // // Biblioteca biblioteca = new Biblioteca();
         // // biblioteca.carregarDados(); // Carrega dados salvos no txt
 
         // // BibliotecaUI ui = new BibliotecaUI(biblioteca);
         // // ui.setLocationRelativeTo(null); // Centraliza a janela
         // // ui.setVisible(true);
+
+        telas.TelaListagemProduto tela = new telas.TelaListagemProduto();
+        tela.setVisible(true);
     }
 
     /**
