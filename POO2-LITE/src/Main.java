@@ -92,7 +92,7 @@ public class Main {
             fundo.add(centro, BorderLayout.CENTER);
 
             setContentPane(fundo);
-            setSize(380, 220);
+            setSize(480, 220);
             setLocationRelativeTo(null);
         }
     }
