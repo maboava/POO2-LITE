@@ -1,7 +1,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import telas.TelaListagemProduto;
 
 /**
  * Ponto de entrada da aplicação. Responsável por exibir a splash screen
