@@ -5,8 +5,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class TelaListagemProduto extends JFrame {
 
@@ -20,7 +22,8 @@ public class TelaListagemProduto extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         criarTabela();
-        carregarDadosDoArquivo("src/banco/update_temp.txt");
+        // Lê arquivo de dentro do classpath/JAR
+        carregarDadosDoArquivo("/banco/update_temp.txt");
 
         // ---------------- BOTÃO VOLTAR ----------------
         JButton btnVoltar = new JButton("← Voltar");
@@ -33,7 +36,7 @@ public class TelaListagemProduto extends JFrame {
         JButton btnRecarregar = new JButton("Recarregar");
         btnRecarregar.addActionListener(e -> {
             modelo.setRowCount(0); // limpa a tabela
-            carregarDadosDoArquivo("src/banco/update_temp.txt"); // recarrega dados
+            carregarDadosDoArquivo("/banco/update_temp.txt"); // recarrega dados
         });
 
         // Painel superior alinhado à ESQUERDA
@@ -51,7 +54,8 @@ public class TelaListagemProduto extends JFrame {
         modelo = new DefaultTableModel(colunas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // deixar tabela somente leitura
+                // tabela somente leitura
+                return false;
             }
         };
 
@@ -59,7 +63,7 @@ public class TelaListagemProduto extends JFrame {
         tabela.setFillsViewportHeight(true);
         tabela.setRowHeight(25);
 
-        // 👉 Centralizar colunas
+        // 👉 Centralizar algumas colunas
         centralizarColunas();
     }
 
@@ -72,13 +76,23 @@ public class TelaListagemProduto extends JFrame {
         tabela.getColumnModel().getColumn(4).setCellRenderer(centralizado); // Quantidade
     }
 
-    private void carregarDadosDoArquivo(String caminho) {
-        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
-            String linha;
+    private void carregarDadosDoArquivo(String resourcePath) {
+        InputStream input = getClass().getResourceAsStream(resourcePath);
 
+        if (input == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Arquivo não encontrado no classpath:\n" + resourcePath,
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(input, StandardCharsets.UTF_8))) {
+
+            String linha;
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(";");
-                if (dados.length == 5) {
+                if (dados.length == 5) { // Código;Nome;Descrição;Preço;Quantidade
                     modelo.addRow(dados);
                 }
             }
