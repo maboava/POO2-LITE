@@ -1,0 +1,31 @@
+1001;Arroz Tipo 1;Pacote de arroz branco 5kg;21.9;30
+1002;Feijão Carioca;Feijão tipo 1 pacote 1kg;10000.0;45
+1003;Açúcar Cristal;Açúcar cristal pacote 2kg;6.9;25
+1004;Macarrão Espaguete;Massa tipo espaguete 500g;4.49;60
+1005;Óleo de Soja;Óleo refinado 900ml;7.99;50
+1006;Café Torrado e Moído;Café tradicional pacote 500g;14.5;40
+1007;Farinha de Trigo;Farinha branca tipo 1 pacote 1kg;5.2;35
+1008;Sal Refinado;Sal comum pacote 1kg;2.19;80
+1009;Leite Longa Vida;Leite integral caixa 1L;4.99;70
+1010;Biscoito Cream Cracker;Pacote 400g;5.59;50
+1011;Achocolatado em Pó;Sachê 700g;11.9;25
+1012;Molho de Tomate;Sachê 340g;2.89;100
+1013;Extrato de Tomate;Lata 140g;3.69;55
+1014;Farofa Pronta;Pacote 400g;6.5;30
+1015;Amido de Milho;Caixa 200g;4.79;40
+1016;Maionese Tradicional;Pote 500g;8.49;35
+1017;Ketchup Tradicional;Garrafa 400g;7.4;30
+1018;Mostarda Tradicional;Garrafa 400g;6.2;28
+1019;Vinagre de Álcool;Garrafa 750ml;3.1;60
+1020;Tempero Completo;Pacote 300g;4.89;45
+1021;Creme de Leite;Caixinha 200g;3.99;38
+1022;Leite Condensado;Lata 395g;6.99;50
+1023;Sardinha em Lata;Óleo 125g;5.2;40
+1024;Atum Ralado;Lata 170g;8.99;25
+1025;Milho Verde;Lata 200g;4.2;80
+1026;Ervilha;Lata 200g;4.1;75
+1027;Água Sanitária;Garrafa 1L;3.5;50
+1028;Sabão em Barra;Pacote 5 unidades;7.8;30
+1029;Detergente Líquido;Frasco 500ml;2.59;90
+1030;Papel Higiênico;Fardo com 12 rolos;17.5;20
+1234;ARROZ PARBOLIZADO;TESTE;5.64654654502E9;564654543

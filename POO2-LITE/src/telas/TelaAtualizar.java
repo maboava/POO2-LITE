@@ -1,6 +1,8 @@
 package telas;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TelaAtualizar extends JFrame {
 
@@ -21,6 +23,52 @@ public class TelaAtualizar extends JFrame {
         JTextField txtNovaDescricao = new JTextField();
         JTextField txtNovoPreco = new JTextField();
         JTextField txtNovaQuantidade = new JTextField();
+
+        // ---------- VALIDAÇÕES DOS CAMPOS ----------
+
+        // 1) CÓDIGO: permitir somente números
+        txtCodigo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && !Character.isISOControl(c)) {
+                    e.consume();
+                }
+            }
+        });
+
+        // 2) NOME / DESCRIÇÃO: bloquear ponto e vírgula (;) e deixar texto em caixa alta
+        KeyAdapter bloquearPontoEVirgula = new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (c == ';') {
+                    e.consume();
+                } else {
+                    e.consume();
+                    char upperCaseChar = Character.toUpperCase(c);
+                    JTextField source = (JTextField) e.getSource();
+                    int pos = source.getCaretPosition();
+                    source.setText(source.getText().substring(0, pos) + upperCaseChar + source.getText().substring(pos));
+                    source.setCaretPosition(pos + 1);
+                }
+            }
+        };
+        txtNovoNome.addKeyListener(bloquearPontoEVirgula);
+        txtNovaDescricao.addKeyListener(bloquearPontoEVirgula);
+
+        // 3) PREÇO / QUANTIDADE: aceitar só número, vírgula e bloquear ponto
+        KeyAdapter numeroComVirgulaAdapter = new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != ',' && !Character.isISOControl(c)) {
+                    e.consume();
+                }
+            }
+        };
+        txtNovoPreco.addKeyListener(numeroComVirgulaAdapter);
+        txtNovaQuantidade.addKeyListener(numeroComVirgulaAdapter);
 
         // BOTÃO padrão
         JButton btnSalvar = new JButton("Atualizar");
@@ -66,13 +114,23 @@ public class TelaAtualizar extends JFrame {
                 return;
             }
 
-            if (nome.trim().isEmpty() || descricao.trim().isEmpty()) {
+            String precoTexto = preco.trim().replace(",", ".");
+            String quantidadeTexto = quantidade.trim().replace(",", ".");
+
+            if (codigo.trim().isEmpty() || nome.trim().isEmpty() || descricao.trim().isEmpty()
+                    || precoTexto.isEmpty() || quantidadeTexto.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Aviso", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            double novoPreco = Double.parseDouble(preco.trim());
-            int novaQtd = Integer.parseInt(quantidade.trim());
+            double novoPreco = Double.parseDouble(precoTexto);
+
+            double novaQtdDouble = Double.parseDouble(quantidadeTexto);
+            if (novaQtdDouble % 1 != 0) {
+                JOptionPane.showMessageDialog(this, "A quantidade deve ser um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int novaQtd = (int) novaQtdDouble;
 
             Produto atualizado = new Produto(codigo.trim(), nome.trim(), descricao.trim(), novoPreco, novaQtd);
             boolean sucesso = ProdutoDAO.getInstance().atualizarProduto(atualizado);
