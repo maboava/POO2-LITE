@@ -3,6 +3,9 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,9 +41,9 @@ class ProdutoUpdate {
     }
 }
 
-// CLASSE DAO - Gerencia a persistência dos dados no arquivo update_temp.txt
+// CLASSE DAO - Gerencia a persistência dos dados no arquivo banco/produtos.txt
 class ProdutoUpdateDAO {
-    private static final String ARQUIVO_PRODUTOS = "update_temp.txt";
+    private static final Path ARQUIVO_PRODUTOS = resolverCaminhoBanco();
     private List<ProdutoUpdate> produtos;
 
     public ProdutoUpdateDAO() {
@@ -48,11 +51,20 @@ class ProdutoUpdateDAO {
         carregarProdutos();
     }
 
+    private static Path resolverCaminhoBanco() {
+        Path base = Paths.get(System.getProperty("user.dir"));
+        if (base.getFileName() != null && base.getFileName().toString().equals("bin")) {
+            base = base.getParent();
+        }
+        return base.resolve(Paths.get("src", "banco", "produtos.txt"));
+    }
+
     private void carregarProdutos() {
-        File arquivo = new File(ARQUIVO_PRODUTOS);
+        File arquivo = ARQUIVO_PRODUTOS.toFile();
         if (!arquivo.exists()) {
             // Cria arquivo vazio se não existir
             try {
+                Files.createDirectories(ARQUIVO_PRODUTOS.getParent());
                 arquivo.createNewFile();
             } catch (IOException e) {
                 System.err.println("Erro ao criar arquivo: " + e.getMessage());
@@ -79,7 +91,7 @@ class ProdutoUpdateDAO {
     }
 
     public void salvarProdutos() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_PRODUTOS))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_PRODUTOS.toFile()))) {
             for (ProdutoUpdate produto : produtos) {
                 bw.write(produto.toFileString());
                 bw.newLine();
@@ -190,7 +202,7 @@ public class TelaAtualizacao extends JFrame {
     
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout());
-        painel.setBorder(BorderFactory.createTitledBorder("Lista de Produtos (update_temp.txt)"));
+        painel.setBorder(BorderFactory.createTitledBorder("Lista de Produtos (banco/produtos.txt)"));
         String[] colunas = {"Código", "Nome", "Descrição", "Preço (R$)", "Quantidade"};
         modeloTabela = new DefaultTableModel(colunas, 0) {
             public boolean isCellEditable(int row, int column) { return false; }
@@ -253,7 +265,7 @@ public class TelaAtualizacao extends JFrame {
             ProdutoUpdate produtoAtualizado = new ProdutoUpdate(codigo, nome, descricao, preco, quantidade);
             if (produtoDAO.atualizar(produtoAtualizado)) {
                 JOptionPane.showMessageDialog(this, 
-                    "Produto atualizado com sucesso no arquivo update_temp.txt!", 
+                    "Produto atualizado com sucesso no arquivo banco/produtos.txt!",
                     "Sucesso", 
                     JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();

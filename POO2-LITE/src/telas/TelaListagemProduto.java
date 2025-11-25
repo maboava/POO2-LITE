@@ -4,10 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class TelaListagemProduto extends JFrame {
 
@@ -20,11 +16,8 @@ public class TelaListagemProduto extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Garante que o arquivo exista **dentro da pasta src/banco**, sem recriar a pasta banco
-        criarArquivoSeNaoExistir("src/banco/update_temp.txt");
-
         criarTabela();
-        carregarDadosDoArquivo("src/banco/update_temp.txt");
+        carregarDadosDoBanco();
 
         // Botão Voltar
         JButton btnVoltar = new JButton("← Voltar");
@@ -36,7 +29,7 @@ public class TelaListagemProduto extends JFrame {
         JButton btnRecarregar = new JButton("Recarregar");
         btnRecarregar.addActionListener(e -> {
             modelo.setRowCount(0);
-            carregarDadosDoArquivo("src/banco/update_temp.txt");
+            carregarDadosDoBanco();
         });
 
         JPanel painelTop = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -75,40 +68,15 @@ public class TelaListagemProduto extends JFrame {
         tabela.getColumnModel().getColumn(4).setCellRenderer(centralizado); // Quantidade
     }
 
-    private void criarArquivoSeNaoExistir(String caminhoRelativo) {
-        File arquivo = new File(caminhoRelativo);
-        try {
-            if (!arquivo.exists()) {
-                boolean criado = arquivo.createNewFile();
-                if (criado) {
-                    System.out.println("Arquivo criado: " + arquivo.getAbsolutePath());
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erro ao criar arquivo: " + e.getMessage(),
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void carregarDadosDoArquivo(String caminhoRelativo) {
-        File arquivo = new File(caminhoRelativo);
-        if (!arquivo.exists()) {
-            return;
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
-                if (dados.length == 5) {
-                    modelo.addRow(dados);
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erro ao ler arquivo: " + e.getMessage(),
-                    "Erro", JOptionPane.ERROR_MESSAGE);
+    private void carregarDadosDoBanco() {
+        for (Produto produto : ProdutoDAO.getInstance().listarProdutos()) {
+            modelo.addRow(new Object[]{
+                    produto.getCodigo(),
+                    produto.getNome(),
+                    produto.getDescricao(),
+                    String.valueOf(produto.getPreco()),
+                    produto.getQuantidade()
+            });
         }
     }
 
