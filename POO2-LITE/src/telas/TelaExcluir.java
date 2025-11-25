@@ -1,8 +1,6 @@
 package telas;
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
-import java.util.ArrayList;
 
 public class TelaExcluir extends JFrame {
 
@@ -34,38 +32,13 @@ public class TelaExcluir extends JFrame {
         setVisible(true);
     }
 
-    // Lógica de exclusão (mantida)
+    // Lógica de exclusão (persistente)
     private void excluir(String codigo) {
-        try {
-            File arquivo = new File("delete_temp.txt");
+        boolean removido = ProdutoDAO.getInstance().removerProduto(codigo.trim());
 
-            BufferedReader br = new BufferedReader(new FileReader(arquivo));
-            ArrayList<String> linhas = new ArrayList<>();
-
-            String linha;
-            boolean encontrado = false;
-
-            while ((linha = br.readLine()) != null) {
-                if (!linha.startsWith(codigo + ";")) {
-                    linhas.add(linha);
-                } else {
-                    encontrado = true;
-                }
-            }
-
-            br.close();
-
-            PrintWriter pw = new PrintWriter(new FileWriter(arquivo));
-            for (String l : linhas) pw.println(l);
-            pw.close();
-
-            if (encontrado)
-                JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
-            else
-                JOptionPane.showMessageDialog(this, "Código não encontrado.");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
-        }
+        if (removido)
+            JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
+        else
+            JOptionPane.showMessageDialog(this, "Código não encontrado.");
     }
 }
