@@ -40,7 +40,7 @@ public class TelaCadastrar extends JFrame {
 
         // AÇÃO DO BOTÃO
         btnSalvar.addActionListener(e -> {
-            try (FileWriter fw = new FileWriter("delete_temp.txt", true)) {
+            try (FileWriter fw = new FileWriter("update_temp.txt", true)) {
                 fw.write(txtCodigo.getText() + ";" + txtNome.getText() + ";" + txtPreco.getText() + "\n");
                 JOptionPane.showMessageDialog(this, "Produto cadastrado!");
             } catch (Exception ex) {

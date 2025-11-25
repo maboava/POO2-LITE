@@ -1,14 +1,13 @@
 package telas;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 
 public class TelaListagemProduto extends JFrame {
 
@@ -21,25 +20,26 @@ public class TelaListagemProduto extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        criarTabela();
-        // Lê arquivo de dentro do classpath/JAR
-        carregarDadosDoArquivo("/banco/update_temp.txt");
+        // Garante que o arquivo exista **dentro da pasta src/banco**, sem recriar a pasta banco
+        criarArquivoSeNaoExistir("src/banco/update_temp.txt");
 
-        // ---------------- BOTÃO VOLTAR ----------------
+        criarTabela();
+        carregarDadosDoArquivo("src/banco/update_temp.txt");
+
+        // Botão Voltar
         JButton btnVoltar = new JButton("← Voltar");
         btnVoltar.addActionListener(e -> {
-            new MenuInicial().setVisible(true); // abre o menu principal
-            dispose(); // fecha esta tela
+            new MenuInicial().setVisible(true);
+            dispose();
         });
 
-        // ---------------- BOTÃO RECARREGAR ----------------
+        // Botão Recarregar
         JButton btnRecarregar = new JButton("Recarregar");
         btnRecarregar.addActionListener(e -> {
-            modelo.setRowCount(0); // limpa a tabela
-            carregarDadosDoArquivo("/banco/update_temp.txt"); // recarrega dados
+            modelo.setRowCount(0);
+            carregarDadosDoArquivo("src/banco/update_temp.txt");
         });
 
-        // Painel superior alinhado à ESQUERDA
         JPanel painelTop = new JPanel(new FlowLayout(FlowLayout.LEFT));
         painelTop.add(btnVoltar);
         painelTop.add(btnRecarregar);
@@ -47,7 +47,7 @@ public class TelaListagemProduto extends JFrame {
         add(painelTop, BorderLayout.NORTH);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
-        setVisible(true); // torna a tela visível
+        setVisible(true);
     }
 
     private void criarTabela() {
@@ -56,7 +56,6 @@ public class TelaListagemProduto extends JFrame {
         modelo = new DefaultTableModel(colunas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // tabela somente leitura
                 return false;
             }
         };
@@ -65,7 +64,6 @@ public class TelaListagemProduto extends JFrame {
         tabela.setFillsViewportHeight(true);
         tabela.setRowHeight(25);
 
-        // 👉 Centralizar algumas colunas
         centralizarColunas();
     }
 
@@ -78,27 +76,36 @@ public class TelaListagemProduto extends JFrame {
         tabela.getColumnModel().getColumn(4).setCellRenderer(centralizado); // Quantidade
     }
 
-    private void carregarDadosDoArquivo(String resourcePath) {
-        InputStream input = getClass().getResourceAsStream(resourcePath);
-
-        if (input == null) {
+    private void criarArquivoSeNaoExistir(String caminhoRelativo) {
+        File arquivo = new File(caminhoRelativo);
+        try {
+            if (!arquivo.exists()) {
+                boolean criado = arquivo.createNewFile();
+                if (criado) {
+                    System.out.println("Arquivo criado: " + arquivo.getAbsolutePath());
+                }
+            }
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
-                    "Arquivo não encontrado no classpath:\n" + resourcePath,
+                    "Erro ao criar arquivo: " + e.getMessage(),
                     "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void carregarDadosDoArquivo(String caminhoRelativo) {
+        File arquivo = new File(caminhoRelativo);
+        if (!arquivo.exists()) {
             return;
         }
 
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(input, StandardCharsets.UTF_8))) {
-
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(";");
-                if (dados.length == 5) { // Código;Nome;Descrição;Preço;Quantidade
+                if (dados.length == 5) {
                     modelo.addRow(dados);
                 }
             }
-
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
                     "Erro ao ler arquivo: " + e.getMessage(),
@@ -107,8 +114,6 @@ public class TelaListagemProduto extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new TelaListagemProduto().setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new TelaListagemProduto().setVisible(true));
     }
 }
