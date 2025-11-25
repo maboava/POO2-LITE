@@ -109,6 +109,9 @@ public class TelaListagemProduto extends JFrame {
 
     private void abrirTelaCadastro() {
         TelaCadastrar telaCadastrar = new TelaCadastrar();
+        telaCadastrar.setLocationRelativeTo(this);
+        telaCadastrar.setAlwaysOnTop(true);
+        telaCadastrar.toFront();
         telaCadastrar.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
