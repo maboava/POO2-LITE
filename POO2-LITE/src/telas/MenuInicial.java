@@ -1,48 +1,103 @@
 package telas;
-import javax.swing.*;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter; // WindowAdapter é uma classe adaptadora para eventos de janela
-import java.awt.event.WindowEvent; // WindowEvent é um evento que indica uma mudança na janela
-import java.util.function.Supplier; // Supplier é uma interface funcional que fornece resultados sem aceitar argumentos
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.function.Supplier;
 
 public class MenuInicial extends JFrame {
 
     public MenuInicial() {
         setTitle("Menu Inicial");
-        setSize(380, 420);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Painel de fundo com imagem
+        setContentPane(criarPainelComBackground());
+
+        // Tela cheia (maximizado)
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        // Centraliza (irrelevante pra maximizado, mas ok)
         setLocationRelativeTo(null);
 
-        // Layout padrão (sem customização)
-        setLayout(new BorderLayout());
+        setVisible(true);
+    }
 
-        // Painel padrão do Swing
-        JPanel painel = new JPanel();
-        painel.setLayout(new GridLayout(5, 1, 15, 15));
-        painel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+    /**
+     * Cria o painel principal com a imagem de fundo e os componentes sobrepostos.
+     */
+    private JPanel criarPainelComBackground() {
+        // Carrega a imagem de fundo (src/img/background.png)
+        final Image bgImage;
+        Image tempImage = null;
+        try {
+            tempImage = new ImageIcon(getClass().getResource("/img/background.png")).getImage();
+        } catch (Exception e) {
+            System.err.println("Não foi possível carregar /img/background.png. Verifique o caminho.");
+        }
+        bgImage = tempImage;
 
-        // Botões padrão (sem cores personalizadas)
+        JPanel painelBackground = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    // Desenha a imagem ocupando todo o painel
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        painelBackground.setLayout(new BorderLayout());
+
+        // ---------------- BARRA SUPERIOR ----------------
+        JPanel barraSuperior = new JPanel(new BorderLayout());
+        barraSuperior.setBackground(new Color(0, 0, 0, 180)); // preto semi-transparente
+
+        // Título à esquerda
+        JLabel lblTitulo = new JLabel("Mercearia do Seu Zé - Menu Inicial");
+        lblTitulo.setForeground(Color.WHITE);
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblTitulo.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        barraSuperior.add(lblTitulo, BorderLayout.WEST);
+
+        // ---- Menu de botões em cima (tipo barra) ----
+        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
+        painelBotoes.setOpaque(false); // deixa ver o fundo da barra
+
         JButton btnCadastrar = new JButton("Cadastrar");
         JButton btnListar = new JButton("Listar");
         JButton btnAtualizar = new JButton("Atualizar");
         JButton btnExcluir = new JButton("Excluir");
         JButton btnSair = new JButton("Sair");
 
-        btnCadastrar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        btnListar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        btnAtualizar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        btnExcluir.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        btnSair.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        Font fonte = new Font("Segoe UI", Font.PLAIN, 14);
+        btnCadastrar.setFont(fonte);
+        btnListar.setFont(fonte);
+        btnAtualizar.setFont(fonte);
+        btnExcluir.setFont(fonte);
+        btnSair.setFont(fonte);
 
-        // Adiciona os botões no painel
-        painel.add(btnCadastrar);
-        painel.add(btnListar);
-        painel.add(btnAtualizar);
-        painel.add(btnExcluir);
-        painel.add(btnSair);
+        // Dá uma folguinha interna nos botões pra não ficar tosco
+        Insets margin = new Insets(4, 10, 4, 10);
+        btnCadastrar.setMargin(margin);
+        btnListar.setMargin(margin);
+        btnAtualizar.setMargin(margin);
+        btnExcluir.setMargin(margin);
+        btnSair.setMargin(margin);
 
-        add(painel, BorderLayout.CENTER);
+        painelBotoes.add(btnCadastrar);
+        painelBotoes.add(btnListar);
+        painelBotoes.add(btnAtualizar);
+        painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnSair);
+
+        barraSuperior.add(painelBotoes, BorderLayout.EAST);
+
+        painelBackground.add(barraSuperior, BorderLayout.NORTH);
+
+        // (Nada no CENTER – só a imagem de fundo)
+        // painelBackground.add(..., BorderLayout.CENTER);
 
         // Ações dos botões
         btnCadastrar.addActionListener(e -> abrirTelaUnica(TelaCadastrar::new));
@@ -51,11 +106,11 @@ public class MenuInicial extends JFrame {
         btnExcluir.addActionListener(e -> abrirTelaUnica(TelaExcluir::new));
         btnSair.addActionListener(e -> System.exit(0));
 
-        setVisible(true);
+        return painelBackground;
     }
+
     // Abre uma nova tela, permitindo apenas uma janela aberta por vez
     private void abrirTelaUnica(Supplier<? extends JFrame> criador) {
-        // Verifica se há outra janela aberta
         if (haOutraJanelaAberta()) {
             JOptionPane.showMessageDialog(this,
                     "Feche a janela aberta antes de abrir outra tela do menu.",
@@ -64,10 +119,8 @@ public class MenuInicial extends JFrame {
             return;
         }
 
-        // Oculta o menu enquanto a nova tela está ativa
         setVisible(false);
 
-        // Cria a nova janela através do Supplier fornecido
         JFrame novaTela = criador.get();
         novaTela.addWindowListener(new WindowAdapter() {
             @Override
@@ -95,7 +148,6 @@ public class MenuInicial extends JFrame {
         setVisible(true);
         toFront();
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MenuInicial::new);
