@@ -56,15 +56,9 @@ public class Main {
      */
     private static void iniciarAplicacao() {
 
-        // // Biblioteca biblioteca = new Biblioteca();
-        // // biblioteca.carregarDados(); // Carrega dados salvos no txt
-
-        // // BibliotecaUI ui = new BibliotecaUI(biblioteca);
-        // // ui.setLocationRelativeTo(null); // Centraliza a janela
-        // // ui.setVisible(true);
-
-        telas.MenuInicial tela = new telas.MenuInicial();
-        tela.setVisible(true);
+        telas.TelaLogin login = new telas.TelaLogin();
+        login.setVisible(true);
+        
     }
 
     /**
