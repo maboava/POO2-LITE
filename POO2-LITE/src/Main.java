@@ -57,7 +57,7 @@ public class Main {
         // // ui.setLocationRelativeTo(null); // Centraliza a janela
         // // ui.setVisible(true);
 
-        telas.TelaListagemProduto tela = new telas.TelaListagemProduto();
+        telas.MenuInicial tela = new telas.MenuInicial();
         tela.setVisible(true);
     }
 
