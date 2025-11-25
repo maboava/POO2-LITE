@@ -8,6 +8,12 @@ import java.util.function.Supplier;
 
 public class MenuInicial extends JFrame {
 
+    private JButton btnCadastrar;
+    private JButton btnListar;
+    private JButton btnAtualizar;
+    private JButton btnExcluir;
+    private JButton btnSair;
+
     public MenuInicial() {
         setTitle("Menu Inicial");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,11 +71,11 @@ public class MenuInicial extends JFrame {
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         painelBotoes.setOpaque(false); // deixa ver o fundo da barra
 
-        JButton btnCadastrar = new JButton("Cadastrar");
-        JButton btnListar = new JButton("Listar");
-        JButton btnAtualizar = new JButton("Atualizar");
-        JButton btnExcluir = new JButton("Excluir");
-        JButton btnSair = new JButton("Sair");
+        btnCadastrar = new JButton("Cadastrar");
+        btnListar = new JButton("Listar");
+        btnAtualizar = new JButton("Atualizar");
+        btnExcluir = new JButton("Excluir");
+        btnSair = new JButton("Sair");
 
         Font fonte = new Font("Segoe UI", Font.PLAIN, 14);
         btnCadastrar.setFont(fonte);
@@ -119,9 +125,11 @@ public class MenuInicial extends JFrame {
             return;
         }
 
-        setVisible(false);
+        atualizarEstadoMenu(false);
 
         JFrame novaTela = criador.get();
+        novaTela.setAlwaysOnTop(true);
+        novaTela.setLocationRelativeTo(this);
         novaTela.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -145,8 +153,16 @@ public class MenuInicial extends JFrame {
     }
 
     private void reexibirMenu() {
-        setVisible(true);
+        atualizarEstadoMenu(true);
         toFront();
+    }
+
+    private void atualizarEstadoMenu(boolean habilitar) {
+        btnCadastrar.setEnabled(habilitar);
+        btnListar.setEnabled(habilitar);
+        btnAtualizar.setEnabled(habilitar);
+        btnExcluir.setEnabled(habilitar);
+        btnSair.setEnabled(habilitar);
     }
 
     public static void main(String[] args) {
