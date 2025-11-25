@@ -3,6 +3,9 @@ package telas;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ProdutoDAO {
 
@@ -10,7 +13,15 @@ public class ProdutoDAO {
     private static ProdutoDAO instance;
 
     // 🔹 Caminho único do arquivo de "banco de dados"
-    private static final String ARQUIVO_BANCO = "src/banco/produtos.txt";
+    private static final Path ARQUIVO_BANCO = resolverCaminhoBanco();
+
+    private static Path resolverCaminhoBanco() {
+        Path base = Paths.get(System.getProperty("user.dir"));
+        if (base.getFileName() != null && base.getFileName().toString().equals("bin")) {
+            base = base.getParent();
+        }
+        return base.resolve(Paths.get("src", "banco", "produtos.txt"));
+    }
 
     public static ProdutoDAO getInstance() {
         if (instance == null) {
@@ -84,13 +95,10 @@ public class ProdutoDAO {
 
     // 🔹 Persistência em arquivo ------------------------------------------------
     private void carregarProdutosDoArquivo() {
-        File arquivo = new File(ARQUIVO_BANCO);
+        File arquivo = ARQUIVO_BANCO.toFile();
 
         try {
-            File parent = arquivo.getParentFile();
-            if (parent != null && !parent.exists()) {
-                parent.mkdirs();
-            }
+            Files.createDirectories(ARQUIVO_BANCO.getParent());
             if (!arquivo.exists()) {
                 arquivo.createNewFile();
             }
@@ -119,7 +127,7 @@ public class ProdutoDAO {
     }
 
     private void salvarProdutosNoArquivo() {
-        File arquivo = new File(ARQUIVO_BANCO);
+        File arquivo = ARQUIVO_BANCO.toFile();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo))) {
             for (Produto produto : produtos) {
                 bw.write(produto.getCodigo() + ";" +

@@ -3,6 +3,9 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,7 +43,7 @@ class ProdutoUpdate {
 
 // CLASSE DAO - Gerencia a persistência dos dados no arquivo banco/produtos.txt
 class ProdutoUpdateDAO {
-    private static final String ARQUIVO_PRODUTOS = "src/banco/produtos.txt";
+    private static final Path ARQUIVO_PRODUTOS = resolverCaminhoBanco();
     private List<ProdutoUpdate> produtos;
 
     public ProdutoUpdateDAO() {
@@ -48,15 +51,20 @@ class ProdutoUpdateDAO {
         carregarProdutos();
     }
 
+    private static Path resolverCaminhoBanco() {
+        Path base = Paths.get(System.getProperty("user.dir"));
+        if (base.getFileName() != null && base.getFileName().toString().equals("bin")) {
+            base = base.getParent();
+        }
+        return base.resolve(Paths.get("src", "banco", "produtos.txt"));
+    }
+
     private void carregarProdutos() {
-        File arquivo = new File(ARQUIVO_PRODUTOS);
+        File arquivo = ARQUIVO_PRODUTOS.toFile();
         if (!arquivo.exists()) {
             // Cria arquivo vazio se não existir
             try {
-                File parent = arquivo.getParentFile();
-                if (parent != null && !parent.exists()) {
-                    parent.mkdirs();
-                }
+                Files.createDirectories(ARQUIVO_PRODUTOS.getParent());
                 arquivo.createNewFile();
             } catch (IOException e) {
                 System.err.println("Erro ao criar arquivo: " + e.getMessage());
@@ -83,7 +91,7 @@ class ProdutoUpdateDAO {
     }
 
     public void salvarProdutos() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_PRODUTOS))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_PRODUTOS.toFile()))) {
             for (ProdutoUpdate produto : produtos) {
                 bw.write(produto.toFileString());
                 bw.newLine();
