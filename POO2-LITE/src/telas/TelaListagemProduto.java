@@ -18,7 +18,7 @@ public class TelaListagemProduto extends JFrame {
         setTitle("Listagem de Produtos");
         setSize(800, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Garante que o arquivo exista **dentro da pasta src/banco**, sem recriar a pasta banco
         criarArquivoSeNaoExistir("src/banco/update_temp.txt");
@@ -29,7 +29,6 @@ public class TelaListagemProduto extends JFrame {
         // Botão Voltar
         JButton btnVoltar = new JButton("← Voltar");
         btnVoltar.addActionListener(e -> {
-            new MenuInicial().setVisible(true);
             dispose();
         });
 
