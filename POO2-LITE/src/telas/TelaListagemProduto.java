@@ -25,7 +25,7 @@ public class TelaListagemProduto extends JFrame {
         // ---------------- BOTÃO VOLTAR ----------------
         JButton btnVoltar = new JButton("← Voltar");
         btnVoltar.addActionListener(e -> {
-            new MenuPrincipal().setVisible(true); // abre o menu principal
+            new MenuInicial().setVisible(true); // abre o menu principal
             dispose(); // fecha esta tela
         });
 
