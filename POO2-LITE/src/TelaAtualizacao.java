@@ -38,9 +38,9 @@ class ProdutoUpdate {
     }
 }
 
-// CLASSE DAO - Gerencia a persistência dos dados no arquivo update_temp.txt
+// CLASSE DAO - Gerencia a persistência dos dados no arquivo banco/produtos.txt
 class ProdutoUpdateDAO {
-    private static final String ARQUIVO_PRODUTOS = "update_temp.txt";
+    private static final String ARQUIVO_PRODUTOS = "src/banco/produtos.txt";
     private List<ProdutoUpdate> produtos;
 
     public ProdutoUpdateDAO() {
@@ -53,6 +53,10 @@ class ProdutoUpdateDAO {
         if (!arquivo.exists()) {
             // Cria arquivo vazio se não existir
             try {
+                File parent = arquivo.getParentFile();
+                if (parent != null && !parent.exists()) {
+                    parent.mkdirs();
+                }
                 arquivo.createNewFile();
             } catch (IOException e) {
                 System.err.println("Erro ao criar arquivo: " + e.getMessage());
@@ -190,7 +194,7 @@ public class TelaAtualizacao extends JFrame {
     
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout());
-        painel.setBorder(BorderFactory.createTitledBorder("Lista de Produtos (update_temp.txt)"));
+        painel.setBorder(BorderFactory.createTitledBorder("Lista de Produtos (banco/produtos.txt)"));
         String[] colunas = {"Código", "Nome", "Descrição", "Preço (R$)", "Quantidade"};
         modeloTabela = new DefaultTableModel(colunas, 0) {
             public boolean isCellEditable(int row, int column) { return false; }
@@ -253,7 +257,7 @@ public class TelaAtualizacao extends JFrame {
             ProdutoUpdate produtoAtualizado = new ProdutoUpdate(codigo, nome, descricao, preco, quantidade);
             if (produtoDAO.atualizar(produtoAtualizado)) {
                 JOptionPane.showMessageDialog(this, 
-                    "Produto atualizado com sucesso no arquivo update_temp.txt!", 
+                    "Produto atualizado com sucesso no arquivo banco/produtos.txt!",
                     "Sucesso", 
                     JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();
