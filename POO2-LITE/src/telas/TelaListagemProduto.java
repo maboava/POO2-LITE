@@ -60,25 +60,32 @@ public class TelaListagemProduto extends JFrame {
         painelTop.add(lblDica);
         // ---------------------------------------------------< FIM DO BLOCO DA DICA
 
+        
+
+        // ------------------------------------------------< INÍCIO DO BLOCO PARA DUPLO CLIQUE NA TABELA 
         add(painelTop, BorderLayout.NORTH);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
-
-        tabela.addMouseListener(new MouseAdapter() {
+        tabela.addMouseListener(new MouseAdapter() { // Adiciona um listener para capturar cliques na tabela
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    int linha = tabela.rowAtPoint(e.getPoint());
-                    if (linha != -1) {
-                        tabela.setRowSelectionInterval(linha, linha);
-                        String codigo = (String) modelo.getValueAt(linha, 0);
-                        Produto produto = ProdutoDAO.getInstance().buscarProduto(codigo);
-                        if (produto != null) {
-                            new DetalheProdutoDialog(TelaListagemProduto.this, produto, TelaListagemProduto.this::recarregarTabela);
+            public void mouseClicked(MouseEvent e) { // Método chamado quando o mouse é clicado
+                if (e.getClickCount() == 2) { // Verifica se foi um clique duplo
+                    int linha = tabela.rowAtPoint(e.getPoint()); // Obtém o índice da linha clicada
+                    if (linha != -1) { // Verifica se clicou em uma linha válida
+                        tabela.setRowSelectionInterval(linha, linha); // Seleciona visualmente a linha clicada
+                        String codigo = (String) modelo.getValueAt(linha, 0); // Pega o valor da coluna 0 (código do produto)
+                        Produto produto = ProdutoDAO.getInstance().buscarProduto(codigo); // Busca o produto no banco via DAO
+                        if (produto != null) { // Se encontrou o produto
+                            new DetalheProdutoDialog(
+                                TelaListagemProduto.this,       // Janela pai
+                                produto,                        // Produto a exibir
+                                TelaListagemProduto.this::recarregarTabela // Callback para recarregar a tabela após edição
+                            );
                         }
                     }
                 }
             }
-        });
+        }); 
+        // ------------------------------------------------< FIM DO BLOCO DO DUPLO CLIQUE
 
         setVisible(true);
     }
