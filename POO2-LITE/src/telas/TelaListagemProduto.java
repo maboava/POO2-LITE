@@ -219,13 +219,22 @@ public class TelaListagemProduto extends JFrame {
             try {
                 String nome = txtNome.getText().trim();
                 String descricao = txtDescricao.getText().trim();
-                String quantidadeTexto = txtQuantidade.getText().trim().replace(",", ".");
+                String precoTexto = txtPreco.getText().trim();
+                String quantidadeTexto = txtQuantidade.getText().trim();
 
-                if (nome.isEmpty() || descricao.isEmpty() || quantidadeTexto.isEmpty()) {
+                if (nome.isEmpty() || descricao.isEmpty() || precoTexto.isEmpty() || quantidadeTexto.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Aviso", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
+                // --------- TRATAR PREÇO DIGITADO - PRECISA PQ SE NÃO VAI DAR RUIM PRA SALVAR O CADASTRO (ex: 1.234,56 → 1234.56) ----------
+                precoTexto = precoTexto.replace(".", ""); 
+                precoTexto = precoTexto.replace(",", ".");
+
+                double preco = Double.parseDouble(precoTexto);
+
+                // --------- TRATAR QUANTIDADE (permite vírgula mas vira inteiro) ----------
+                quantidadeTexto = quantidadeTexto.replace(",", "."); // se digitar "10,0", mas não permite "10,6" por exemploo...
                 double quantidadeDouble = Double.parseDouble(quantidadeTexto);
                 if (quantidadeDouble % 1 != 0) {
                     JOptionPane.showMessageDialog(this,
@@ -235,9 +244,6 @@ public class TelaListagemProduto extends JFrame {
                     return;
                 }
                 int quantidade = (int) quantidadeDouble;
-
-                // Usa o precoOriginal (double), não o texto formatado
-                double preco = precoOriginal;
 
                 Produto atualizado = new Produto(txtCodigo.getText(), nome, descricao, preco, quantidade);
                 boolean sucesso = ProdutoDAO.getInstance().atualizarProduto(atualizado);
