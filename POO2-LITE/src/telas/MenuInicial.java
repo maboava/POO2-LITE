@@ -125,6 +125,7 @@ public class MenuInicial extends JFrame {
             return;
         }
 
+        manterMenuVisivel();
         atualizarEstadoMenu(false);
 
         JFrame novaTela = criador.get();
@@ -153,8 +154,8 @@ public class MenuInicial extends JFrame {
     }
 
     private void reexibirMenu() {
+        manterMenuVisivel();
         atualizarEstadoMenu(true);
-        toFront();
     }
 
     private void atualizarEstadoMenu(boolean habilitar) {
@@ -163,6 +164,15 @@ public class MenuInicial extends JFrame {
         btnAtualizar.setEnabled(habilitar);
         btnExcluir.setEnabled(habilitar);
         btnSair.setEnabled(habilitar);
+    }
+
+    private void manterMenuVisivel() {
+        if (!isVisible()) {
+            setVisible(true);
+        }
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        toFront();
+        requestFocus();
     }
 
     public static void main(String[] args) {
