@@ -8,10 +8,7 @@ import java.util.function.Supplier;
 
 public class MenuInicial extends JFrame {
 
-    private JButton btnCadastrar;
     private JButton btnListar;
-    private JButton btnAtualizar;
-    private JButton btnExcluir;
     private JButton btnSair;
 
     public MenuInicial() {
@@ -71,31 +68,19 @@ public class MenuInicial extends JFrame {
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         painelBotoes.setOpaque(false); // deixa ver o fundo da barra
 
-        btnCadastrar = new JButton("Cadastrar");
-        btnListar = new JButton("Listar");
-        btnAtualizar = new JButton("Atualizar");
-        btnExcluir = new JButton("Excluir");
+        btnListar = new JButton("Central de Produtos");
         btnSair = new JButton("Sair");
 
         Font fonte = new Font("Segoe UI", Font.PLAIN, 14);
-        btnCadastrar.setFont(fonte);
         btnListar.setFont(fonte);
-        btnAtualizar.setFont(fonte);
-        btnExcluir.setFont(fonte);
         btnSair.setFont(fonte);
 
         // Dá uma folguinha interna nos botões pra não ficar tosco
         Insets margin = new Insets(4, 10, 4, 10);
-        btnCadastrar.setMargin(margin);
         btnListar.setMargin(margin);
-        btnAtualizar.setMargin(margin);
-        btnExcluir.setMargin(margin);
         btnSair.setMargin(margin);
 
-        painelBotoes.add(btnCadastrar);
         painelBotoes.add(btnListar);
-        painelBotoes.add(btnAtualizar);
-        painelBotoes.add(btnExcluir);
         painelBotoes.add(btnSair);
 
         barraSuperior.add(painelBotoes, BorderLayout.EAST);
@@ -106,10 +91,7 @@ public class MenuInicial extends JFrame {
         // painelBackground.add(..., BorderLayout.CENTER);
 
         // Ações dos botões
-        btnCadastrar.addActionListener(e -> abrirTelaUnica(TelaCadastrar::new));
         btnListar.addActionListener(e -> abrirTelaUnica(TelaListagemProduto::new));
-        btnAtualizar.addActionListener(e -> abrirTelaUnica(TelaAtualizar::new));
-        btnExcluir.addActionListener(e -> abrirTelaUnica(TelaExcluir::new));
         btnSair.addActionListener(e -> System.exit(0));
 
         return painelBackground;
@@ -159,10 +141,7 @@ public class MenuInicial extends JFrame {
     }
 
     private void atualizarEstadoMenu(boolean habilitar) {
-        btnCadastrar.setEnabled(habilitar);
         btnListar.setEnabled(habilitar);
-        btnAtualizar.setEnabled(habilitar);
-        btnExcluir.setEnabled(habilitar);
         btnSair.setEnabled(habilitar);
     }
 
