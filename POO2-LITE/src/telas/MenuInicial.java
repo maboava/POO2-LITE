@@ -2,6 +2,9 @@ package telas;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter; // WindowAdapter é uma classe adaptadora para eventos de janela
+import java.awt.event.WindowEvent; // WindowEvent é um evento que indica uma mudança na janela
+import java.util.function.Supplier; // Supplier é uma interface funcional que fornece resultados sem aceitar argumentos
 
 public class MenuInicial extends JFrame {
 
@@ -42,14 +45,57 @@ public class MenuInicial extends JFrame {
         add(painel, BorderLayout.CENTER);
 
         // Ações dos botões
-        btnCadastrar.addActionListener(e -> new TelaCadastrar());
-        btnListar.addActionListener(e -> new TelaListagemProduto());
-        btnAtualizar.addActionListener(e -> new TelaAtualizar());
-        btnExcluir.addActionListener(e -> new TelaExcluir());
+        btnCadastrar.addActionListener(e -> abrirTelaUnica(TelaCadastrar::new));
+        btnListar.addActionListener(e -> abrirTelaUnica(TelaListagemProduto::new));
+        btnAtualizar.addActionListener(e -> abrirTelaUnica(TelaAtualizar::new));
+        btnExcluir.addActionListener(e -> abrirTelaUnica(TelaExcluir::new));
         btnSair.addActionListener(e -> System.exit(0));
 
         setVisible(true);
     }
+    // Abre uma nova tela, permitindo apenas uma janela aberta por vez
+    private void abrirTelaUnica(Supplier<? extends JFrame> criador) {
+        // Verifica se há outra janela aberta
+        if (haOutraJanelaAberta()) {
+            JOptionPane.showMessageDialog(this,
+                    "Feche a janela aberta antes de abrir outra tela do menu.",
+                    "Janela já aberta",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Oculta o menu enquanto a nova tela está ativa
+        setVisible(false);
+
+        // Cria a nova janela através do Supplier fornecido
+        JFrame novaTela = criador.get();
+        novaTela.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                reexibirMenu();
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                reexibirMenu();
+            }
+        });
+    }
+
+    private boolean haOutraJanelaAberta() {
+        for (Frame frame : Frame.getFrames()) {
+            if (frame.isVisible() && frame != this) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void reexibirMenu() {
+        setVisible(true);
+        toFront();
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MenuInicial::new);
