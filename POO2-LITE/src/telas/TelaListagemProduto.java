@@ -8,6 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class TelaListagemProduto extends JFrame {
 
@@ -43,18 +45,12 @@ public class TelaListagemProduto extends JFrame {
 
         JLabel lblDica = new JLabel("Clique duas vezes sobre o produto para editar.");
 
-
-
-        // ---------------------------------------------------> AJUSTE DA COR DO TEXTO DA DICA - Adicionei para melhor visibilidade Windows/Linux
-        // Detecta se o fundo é claro ou escuro
+        // ---------------------------------------------------> AJUSTE DA COR DO TEXTO DA DICA
         Color bg = UIManager.getColor("Panel.background");
         if (bg == null) bg = painelTop.getBackground();
 
-        // fórmula para saber se a cor é clara ou escura (percepção humana)
         double luminancia = (0.299 * bg.getRed()) + (0.587 * bg.getGreen()) + (0.114 * bg.getBlue());
-        
 
-        // Se for claro → texto preto | se for escuro → texto branco 
         if (luminancia > 128) {
             lblDica.setForeground(Color.BLACK);
         } else {
@@ -63,8 +59,6 @@ public class TelaListagemProduto extends JFrame {
 
         painelTop.add(lblDica);
         // ---------------------------------------------------< FIM DO BLOCO DA DICA
-
-
 
         add(painelTop, BorderLayout.NORTH);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
@@ -116,12 +110,17 @@ public class TelaListagemProduto extends JFrame {
     }
 
     private void carregarDadosDoBanco() {
+        // Formatação brasileira também na tabela
+        Locale localeBR = Locale.forLanguageTag("pt-BR");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(localeBR);
+
         for (Produto produto : ProdutoDAO.getInstance().listarProdutos()) {
+            String precoFormatado = nf.format(produto.getPreco());
             modelo.addRow(new Object[]{
                     produto.getCodigo(),
                     produto.getNome(),
                     produto.getDescricao(),
-                    String.valueOf(produto.getPreco()),
+                    precoFormatado,               // mostra R$ 1.234,56
                     produto.getQuantidade()
             });
         }
@@ -158,10 +157,14 @@ public class TelaListagemProduto extends JFrame {
         private final JTextField txtPreco;
         private final JTextField txtQuantidade;
 
+        private final double precoOriginal; // mantém o valor numérico original
+
         DetalheProdutoDialog(Frame owner, Produto produto, Runnable onChange) {
             super(owner, "Detalhes do Produto", true);
             setLayout(new BorderLayout(10, 10));
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            this.precoOriginal = produto.getPreco();
 
             JPanel painelCampos = new JPanel(new GridLayout(5, 2, 8, 8));
             painelCampos.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -179,11 +182,12 @@ public class TelaListagemProduto extends JFrame {
             txtDescricao = new JTextField(produto.getDescricao());
             painelCampos.add(txtDescricao);
 
-            // Aqui adicionei o fixo R$ antes do preço, e troquei ponto por vírgula, conforme padrão brasileiro // MATHEUS 24/11
+            // Preço formatado no padrão brasileiro sem R$
             painelCampos.add(new JLabel("Preço:"));
-            // Campo para exibir o preço do produto formatado com "R$" e substituindo ponto por vírgula
-            txtPreco = new JTextField(String.format("R$ %.2f", produto.getPreco()).replace('.', ','));
-            txtPreco.setEditable(false);
+            Locale localeBR = Locale.forLanguageTag("pt-BR");
+            NumberFormat nf = NumberFormat.getNumberInstance(localeBR); 
+            String precoFormatado = nf.format(precoOriginal); 
+            txtPreco = new JTextField(precoFormatado);
             painelCampos.add(txtPreco);
 
             painelCampos.add(new JLabel("Quantidade:"));
@@ -215,13 +219,25 @@ public class TelaListagemProduto extends JFrame {
             try {
                 String nome = txtNome.getText().trim();
                 String descricao = txtDescricao.getText().trim();
-                double preco = Double.parseDouble(txtPreco.getText().trim());
-                int quantidade = Integer.parseInt(txtQuantidade.getText().trim());
+                String quantidadeTexto = txtQuantidade.getText().trim().replace(",", ".");
 
-                if (nome.isEmpty() || descricao.isEmpty()) {
+                if (nome.isEmpty() || descricao.isEmpty() || quantidadeTexto.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Aviso", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
+
+                double quantidadeDouble = Double.parseDouble(quantidadeTexto);
+                if (quantidadeDouble % 1 != 0) {
+                    JOptionPane.showMessageDialog(this,
+                            "A quantidade deve ser um número inteiro.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                int quantidade = (int) quantidadeDouble;
+
+                // Usa o precoOriginal (double), não o texto formatado
+                double preco = precoOriginal;
 
                 Produto atualizado = new Produto(txtCodigo.getText(), nome, descricao, preco, quantidade);
                 boolean sucesso = ProdutoDAO.getInstance().atualizarProduto(atualizado);
