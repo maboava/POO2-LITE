@@ -43,14 +43,18 @@ public class TelaListagemProduto extends JFrame {
 
         JLabel lblDica = new JLabel("Clique duas vezes sobre o produto para editar.");
 
+
+
+        // ---------------------------------------------------> AJUSTE DA COR DO TEXTO DA DICA - Adicionei para melhor visibilidade Windows/Linux
         // Detecta se o fundo é claro ou escuro
         Color bg = UIManager.getColor("Panel.background");
         if (bg == null) bg = painelTop.getBackground();
 
         // fórmula para saber se a cor é clara ou escura (percepção humana)
         double luminancia = (0.299 * bg.getRed()) + (0.587 * bg.getGreen()) + (0.114 * bg.getBlue());
+        
 
-        // Se for claro → texto preto | se for escuro → texto branco
+        // Se for claro → texto preto | se for escuro → texto branco 
         if (luminancia > 128) {
             lblDica.setForeground(Color.BLACK);
         } else {
@@ -58,6 +62,7 @@ public class TelaListagemProduto extends JFrame {
         }
 
         painelTop.add(lblDica);
+        // ---------------------------------------------------< FIM DO BLOCO DA DICA
 
 
 
@@ -174,8 +179,11 @@ public class TelaListagemProduto extends JFrame {
             txtDescricao = new JTextField(produto.getDescricao());
             painelCampos.add(txtDescricao);
 
+            // Aqui adicionei o fixo R$ antes do preço, e troquei ponto por vírgula, conforme padrão brasileiro // MATHEUS 24/11
             painelCampos.add(new JLabel("Preço:"));
-            txtPreco = new JTextField(String.valueOf(produto.getPreco()));
+            // Campo para exibir o preço do produto formatado com "R$" e substituindo ponto por vírgula
+            txtPreco = new JTextField(String.format("R$ %.2f", produto.getPreco()).replace('.', ','));
+            txtPreco.setEditable(false);
             painelCampos.add(txtPreco);
 
             painelCampos.add(new JLabel("Quantidade:"));
