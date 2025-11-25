@@ -1,26 +1,26 @@
 package telas;
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
-import java.util.ArrayList;
 
 public class TelaAtualizar extends JFrame {
 
     public TelaAtualizar() {
         setTitle("Atualizar Produto");
-        setSize(400, 380);
+        setSize(400, 450);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Painel padrão (sem customização)
         JPanel painel = new JPanel();
-        painel.setLayout(new GridLayout(7, 1, 10, 10));
+        painel.setLayout(new GridLayout(11, 1, 10, 10));
         painel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // CAMPOS padrão
         JTextField txtCodigo = new JTextField();
         JTextField txtNovoNome = new JTextField();
+        JTextField txtNovaDescricao = new JTextField();
         JTextField txtNovoPreco = new JTextField();
+        JTextField txtNovaQuantidade = new JTextField();
 
         // BOTÃO padrão
         JButton btnSalvar = new JButton("Atualizar");
@@ -32,54 +32,58 @@ public class TelaAtualizar extends JFrame {
         painel.add(new JLabel("Novo Nome:"));
         painel.add(txtNovoNome);
 
+        painel.add(new JLabel("Nova Descrição:"));
+        painel.add(txtNovaDescricao);
+
         painel.add(new JLabel("Novo Preço:"));
         painel.add(txtNovoPreco);
+
+        painel.add(new JLabel("Nova Quantidade:"));
+        painel.add(txtNovaQuantidade);
 
         painel.add(btnSalvar);
 
         add(painel);
 
         // Ação do botão
-        btnSalvar.addActionListener(e ->
-                atualizar(txtCodigo.getText(), txtNovoNome.getText(), txtNovoPreco.getText())
-        );
+        btnSalvar.addActionListener(e -> atualizar(
+                txtCodigo.getText(),
+                txtNovoNome.getText(),
+                txtNovaDescricao.getText(),
+                txtNovoPreco.getText(),
+                txtNovaQuantidade.getText()
+        ));
 
         setVisible(true);
     }
 
-    // Atualiza o arquivo
-    private void atualizar(String codigo, String nome, String preco) {
+    // Atualiza o "banco" único
+    private void atualizar(String codigo, String nome, String descricao, String preco, String quantidade) {
         try {
-            File arquivo = new File("delete_temp.txt");
-
-            BufferedReader br = new BufferedReader(new FileReader(arquivo));
-            ArrayList<String> linhas = new ArrayList<>();
-
-            String linha;
-            boolean encontrado = false;
-
-            while ((linha = br.readLine()) != null) {
-                if (linha.startsWith(codigo + ";")) {
-                    linhas.add(codigo + ";" + nome + ";" + preco);
-                    encontrado = true;
-                } else {
-                    linhas.add(linha);
-                }
+            Produto existente = ProdutoDAO.getInstance().buscarProduto(codigo.trim());
+            if (existente == null) {
+                JOptionPane.showMessageDialog(this, "Código não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
-            br.close();
+            if (nome.trim().isEmpty() || descricao.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-            PrintWriter pw = new PrintWriter(new FileWriter(arquivo));
-            for (String l : linhas) pw.println(l);
-            pw.close();
+            double novoPreco = Double.parseDouble(preco.trim());
+            int novaQtd = Integer.parseInt(quantidade.trim());
 
-            if (encontrado)
+            Produto atualizado = new Produto(codigo.trim(), nome.trim(), descricao.trim(), novoPreco, novaQtd);
+            boolean sucesso = ProdutoDAO.getInstance().atualizarProduto(atualizado);
+
+            if (sucesso)
                 JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
             else
-                JOptionPane.showMessageDialog(this, "Código não encontrado!");
+                JOptionPane.showMessageDialog(this, "Não foi possível atualizar o produto.", "Erro", JOptionPane.ERROR_MESSAGE);
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Preço ou quantidade inválidos!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

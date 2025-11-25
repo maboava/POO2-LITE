@@ -1,3 +1,5 @@
+package telas;
+
 public class Produto {
 
     private String codigo;      // único
