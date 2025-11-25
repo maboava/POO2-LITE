@@ -1,0 +1,5 @@
+P001;Notebook Dell;Notebook Intel i7 16GB RAM;3500.00;10
+P002;Mouse Logitech;Mouse sem fio 2.4GHz;89.90;50
+P003;Teclado Mecânico;Teclado RGB switches blue;450.00;25
+P004;Monitor LG 24;Monitor Full HD IPS 24 polegadas;899.00;15
+P005;Webcam HD;Webcam 1080p com microfone;250.00;30
