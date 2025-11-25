@@ -43,7 +43,7 @@ public class MenuInicial extends JFrame {
 
         // Ações dos botões
         btnCadastrar.addActionListener(e -> new TelaCadastrar());
-        btnListar.addActionListener(e -> new TelaListar());
+        btnListar.addActionListener(e -> new TelaListagemProduto());
         btnAtualizar.addActionListener(e -> new TelaAtualizar());
         btnExcluir.addActionListener(e -> new TelaExcluir());
         btnSair.addActionListener(e -> System.exit(0));

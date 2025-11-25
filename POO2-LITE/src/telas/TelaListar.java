@@ -1,127 +1,98 @@
 package telas;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
-
-// Import correto quando MenuInicial está no mesmo pacote "telas"
-import telas.MenuInicial;
+import java.io.IOException;
 
 public class TelaListar extends JFrame {
 
+    private JTable tabela;
+    private DefaultTableModel modelo;
+
     public TelaListar() {
-        setTitle("Listar Produtos");
-        setSize(700, 550);
+        setTitle("Listagem de Produtos");
+        setSize(800, 400);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Painel centralizador
-        JPanel container = new JPanel(new GridBagLayout());
+        criarTabela();
+        carregarDadosDoArquivo("src/banco/update_temp.txt");
 
-        // Painel principal (tema padrão)
-        JPanel painel = new JPanel(new BorderLayout(10, 10));
-        painel.setPreferredSize(new Dimension(600, 450));
-        painel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        // -----------------------------------------------------
-        // TÍTULO
-        // -----------------------------------------------------
-        JLabel titulo = new JLabel("Lista de Produtos", SwingConstants.CENTER);
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        painel.add(titulo, BorderLayout.NORTH);
-
-        // -----------------------------------------------------
-        // CABEÇALHO CENTRALIZADO
-        // -----------------------------------------------------
-        JTextArea cabecalho = new JTextArea();
-        cabecalho.setEditable(false);
-        cabecalho.setFont(new Font("Consolas", Font.BOLD, 15));
-
-        cabecalho.append(String.format(
-                "%-15s │ %-30s │ %-15s\n",
-                center("CÓDIGO", 15),
-                center("NOME", 30),
-                center("PREÇO", 15)
-        ));
-
-        painel.add(cabecalho, BorderLayout.BEFORE_FIRST_LINE);
-
-        // -----------------------------------------------------
-        // ÁREA COM SCROLL (LISTAGEM)
-        // -----------------------------------------------------
-        JTextArea area = new JTextArea();
-        area.setEditable(false);
-        area.setFont(new Font("Consolas", Font.PLAIN, 15));
-
-        JScrollPane scroll = new JScrollPane(area);
-        painel.add(scroll, BorderLayout.CENTER);
-
-        // -----------------------------------------------------
-        // LEITURA DO ARQUIVO
-        // -----------------------------------------------------
-        try (BufferedReader br = new BufferedReader(new FileReader("delete_temp.txt"))) {
-
-            String linha;
-            boolean vazio = true;
-
-            while ((linha = br.readLine()) != null) {
-                linha = linha.trim();
-                if (linha.isEmpty()) continue;
-
-                String[] partes = linha.split(";");
-
-                if (partes.length == 3) {
-                    area.append(String.format(
-                            "%-15s │ %-30s │ %-15s\n",
-                            center(partes[0], 15),
-                            center(partes[1], 30),
-                            center(partes[2], 15)
-                    ));
-                    area.append("--------------------------------------------------------------------------\n");
-                }
-
-                vazio = false;
-            }
-
-            if (vazio) {
-                area.setText("Nenhum produto encontrado.");
-            }
-
-        } catch (Exception e) {
-            area.setText("Arquivo inexistente ou vazio.");
-        }
-
-        // -----------------------------------------------------
-        // BOTÃO VOLTAR
-        // -----------------------------------------------------
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.setFont(new Font("Segoe UI", Font.BOLD, 16));
-
-        JPanel rodape = new JPanel();
-        rodape.add(btnVoltar);
-
-        painel.add(rodape, BorderLayout.SOUTH);
-
+        // ---------------- BOTÃO VOLTAR ----------------
+        JButton btnVoltar = new JButton("← Voltar");
         btnVoltar.addActionListener(e -> {
-            new MenuInicial().setVisible(true);
-            dispose();
+            new MenuInicial().setVisible(true); // abre o menu principal
+            dispose(); // fecha esta tela
         });
 
-        container.add(painel);
-        add(container);
+        // ---------------- BOTÃO RECARREGAR ----------------
+        JButton btnRecarregar = new JButton("Recarregar");
+        btnRecarregar.addActionListener(e -> {
+            modelo.setRowCount(0); // limpa a tabela
+            carregarDadosDoArquivo("src/banco/update_temp.txt"); // recarrega dados
+        });
 
-        setVisible(true);
+        // Painel superior alinhado à ESQUERDA
+        JPanel painelTop = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        painelTop.add(btnVoltar);
+        painelTop.add(btnRecarregar);
+
+        add(painelTop, BorderLayout.NORTH);
+        add(new JScrollPane(tabela), BorderLayout.CENTER);
     }
 
-    // Função para centralizar texto dentro de largura fixa
-    private String center(String text, int width) {
-        int left = (width - text.length()) / 2;
-        int right = width - text.length() - left;
-        return " ".repeat(Math.max(0, left)) + text + " ".repeat(Math.max(0, right));
+    private void criarTabela() {
+        String[] colunas = {"Código", "Nome", "Descrição", "Preço", "Quantidade"};
+
+        modelo = new DefaultTableModel(colunas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // deixar tabela somente leitura
+            }
+        };
+
+        tabela = new JTable(modelo);
+        tabela.setFillsViewportHeight(true);
+        tabela.setRowHeight(25);
+
+        // 👉 Centralizar colunas
+        centralizarColunas();
+    }
+
+    private void centralizarColunas() {
+        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+
+        tabela.getColumnModel().getColumn(0).setCellRenderer(centralizado); // Código
+        tabela.getColumnModel().getColumn(3).setCellRenderer(centralizado); // Preço
+        tabela.getColumnModel().getColumn(4).setCellRenderer(centralizado); // Quantidade
+    }
+
+    private void carregarDadosDoArquivo(String caminho) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+                if (dados.length == 5) {
+                    modelo.addRow(dados);
+                }
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao ler arquivo: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {
-        new TelaListar();
+        SwingUtilities.invokeLater(() -> {
+            new TelaListar().setVisible(true);
+        });
     }
 }
