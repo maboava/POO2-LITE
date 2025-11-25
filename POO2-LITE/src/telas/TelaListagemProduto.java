@@ -46,6 +46,8 @@ public class TelaListagemProduto extends JFrame {
 
         add(painelTop, BorderLayout.NORTH);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
+
+        setVisible(true); // torna a tela visível
     }
 
     private void criarTabela() {
