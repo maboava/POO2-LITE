@@ -1,3 +1,0 @@
-001;Arroz Tipo 1;Pacote 5kg;21.50;12
-002;Feijão Carioca;Pacote 1kg;7.80;40
-003;Óleo de Soja;Garrafa 900ml;6.20;31
