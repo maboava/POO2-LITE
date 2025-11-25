@@ -113,14 +113,14 @@ class ProdutoUpdateDAO {
 }
 
 // TELA DE ATUALIZAÇÃO DE PRODUTOS
-public class Tela_Atualizacao extends JFrame {
+public class TelaAtualizacao extends JFrame {
     private ProdutoUpdateDAO produtoDAO;
     private JTextField txtCodigoBusca, txtCodigoDisplay, txtNomeProduto, txtDescricaoProduto, txtPrecoProduto, txtQuantidadeProduto;
     private JButton btnBuscar, btnAtualizar, btnLimpar;
     private JTable tabelaProdutos;
     private DefaultTableModel modeloTabela;
     
-    public Tela_Atualizacao() {
+    public TelaAtualizacao() {
         produtoDAO = new ProdutoUpdateDAO();
         setTitle("Sistema de Atualização de Produtos");
         setSize(1000, 700);
@@ -290,7 +290,7 @@ public class Tela_Atualizacao extends JFrame {
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Tela_Atualizacao().setVisible(true));
+        SwingUtilities.invokeLater(() -> new TelaAtualizacao().setVisible(true));
     }
 }
 
