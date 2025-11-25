@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import javax.swing.*;
+import telas.*;
 
 /**
  * Ponto de entrada da aplicação. Responsável por exibir a splash screen
