@@ -1,5 +1,5 @@
 1001;Arroz Tipo 1;Pacote de arroz branco 5kg;21.9;30
-1002;Feijão Carioca;Feijão tipo 1 pacote 1kg;100.0;45
+1002;Feijão Carioca;Feijão tipo 1 pacote 1kg;10000.0;45
 1003;Açúcar Cristal;Açúcar cristal pacote 2kg;6.9;25
 1004;Macarrão Espaguete;Massa tipo espaguete 500g;4.49;60
 1005;Óleo de Soja;Óleo refinado 900ml;7.99;50
@@ -28,3 +28,4 @@
 1028;Sabão em Barra;Pacote 5 unidades;7.8;30
 1029;Detergente Líquido;Frasco 500ml;2.59;90
 1030;Papel Higiênico;Fardo com 12 rolos;17.5;20
+1234;ARROZ PARBOLIZADO;TESTE;5.64654654502E9;564654543

@@ -39,14 +39,22 @@ public class TelaCadastrar extends JFrame {
             }
         });
 
-        // 2) NOME / DESCRIÇÃO: bloquear ponto e vírgula (;)
+        // 2) NOME / DESCRIÇÃO: bloquear ponto e vírgula (;) e deixar texto em caixa alta
         KeyAdapter bloquearPontoEVirgula = new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (c == ';') {
-                    e.consume();
-                }
+            char c = e.getKeyChar();
+            if (c == ';') {
+                e.consume();
+            } else {
+                // Converte o caractere digitado para  -- REGRA DE NEGÓCIO PARA DEIXAR CAIXA ALTA --
+                e.consume(); // Consume the event to prevent the default action
+                char upperCaseChar = Character.toUpperCase(c);
+                JTextField source = (JTextField) e.getSource();
+                int pos = source.getCaretPosition();
+                source.setText(source.getText().substring(0, pos) + upperCaseChar + source.getText().substring(pos));
+                source.setCaretPosition(pos + 1);
+            }
             }
         };
         txtNome.addKeyListener(bloquearPontoEVirgula);
@@ -57,8 +65,8 @@ public class TelaCadastrar extends JFrame {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                // permite dígitos, vírgula, ponto e teclas de controle
-                if (!Character.isDigit(c) && c != ',' && c != '.' && !Character.isISOControl(c)) {
+                // permite dígitos, vírgula e teclas de controle
+                if (!Character.isDigit(c) && c != ',' && !Character.isISOControl(c)) {
                     e.consume();
                 }
             }
