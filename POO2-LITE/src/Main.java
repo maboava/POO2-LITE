@@ -4,8 +4,9 @@ import javax.swing.*;
 
 /**
  * Ponto de entrada da aplicação. Responsável por exibir a splash screen
- * inicial e, após a carga, abrir a interface principal da biblioteca.
+ * inicial e, após a carga, abre a interface do sistema.
  */
+
 public class Main {
 
     private Main() {
@@ -13,6 +14,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+        splashScreen();
+        
+    }
+
+    private static void splashScreen() {
+        // Implementação movida para a classe SplashScreenWindow
         SwingUtilities.invokeLater(() -> { // manda o código rodar na fila certa do Swing, assim a tela não trava nem buga.”
             configurarInterface();
  
@@ -29,10 +37,9 @@ public class Main {
         });
     }
 
-    /**
-     * Garante que o visual da aplicação acompanhe o do sistema operacional.
-     */
-    private static void configurarInterface() {
+
+    private static void configurarInterface() { 
+        // Aqui garante que a interface gráfica acompanhe o design do sistema operacional.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
