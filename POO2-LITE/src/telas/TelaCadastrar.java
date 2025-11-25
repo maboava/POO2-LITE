@@ -6,7 +6,7 @@ public class TelaCadastrar extends JFrame {
 
     public TelaCadastrar() {
         setTitle("Cadastrar Produto");
-        setSize(400, 350);
+        setSize(400, 550);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

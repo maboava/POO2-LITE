@@ -68,7 +68,7 @@ public class MenuInicial extends JFrame {
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         painelBotoes.setOpaque(false); // deixa ver o fundo da barra
 
-        btnListar = new JButton("Listar");
+        btnListar = new JButton("Central de Produtos");
         btnSair = new JButton("Sair");
 
         Font fonte = new Font("Segoe UI", Font.PLAIN, 14);
