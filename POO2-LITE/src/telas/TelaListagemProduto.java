@@ -41,6 +41,26 @@ public class TelaListagemProduto extends JFrame {
         painelTop.add(btnRecarregar);
         painelTop.add(btnCadastrar);
 
+        JLabel lblDica = new JLabel("Clique duas vezes sobre o produto para editar.");
+
+        // Detecta se o fundo é claro ou escuro
+        Color bg = UIManager.getColor("Panel.background");
+        if (bg == null) bg = painelTop.getBackground();
+
+        // fórmula para saber se a cor é clara ou escura (percepção humana)
+        double luminancia = (0.299 * bg.getRed()) + (0.587 * bg.getGreen()) + (0.114 * bg.getBlue());
+
+        // Se for claro → texto preto | se for escuro → texto branco
+        if (luminancia > 128) {
+            lblDica.setForeground(Color.BLACK);
+        } else {
+            lblDica.setForeground(Color.WHITE);
+        }
+
+        painelTop.add(lblDica);
+
+
+
         add(painelTop, BorderLayout.NORTH);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
