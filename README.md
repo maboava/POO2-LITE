@@ -6,18 +6,18 @@ Trabalho apresentado ao Professor Me. **Bruno Luiz Schuster Rech**, como requisi
 
 ---
 
-> **"O impossível sempre parece impossível até que seja feito — e nada é mais forte do que pessoas unidas por um mesmo propósito."**  
+> **"O impossível sempre parece impossível até que seja feito — e nada é mais forte do que pessoas unidas por um mesmo propósito."**
 > — *Nelson Mandela*
 
 ---
 
 ## 🧑‍💻 Autores
 
-**Kauan Antônio Neves Gomes**  [![GitHub de Kauan](https://img.shields.io/badge/GitHub-kauansw2-black?logo=github)](https://github.com/kauansw2)  
-**Matheus de Almeida Boava**  [![GitHub de Boava](https://img.shields.io/badge/GitHub-maboava-black?logo=github)](https://github.com/maboava)  
-**Nichole Maria Furtado**  [![GitHub de Nichole](https://img.shields.io/badge/GitHub-Nichole_Furtado-black?logo=github)](https://github.com/Nichole-Furtado)  
-**Rafael Rodrigues Pichibinski** [![GitHub de Rafael](https://img.shields.io/badge/GitHub-1Deatth-black?logo=github)](https://github.com/1Deatth)  
-**Tais Mayme Ferrari**  [![GitHub de Tais](https://img.shields.io/badge/GitHub-Tais1905-black?logo=github)](https://github.com/Tais1905)  
+**Kauan Antônio Neves Gomes**  [![GitHub de Kauan](https://img.shields.io/badge/GitHub-kauansw2-black?logo=github)](https://github.com/kauansw2)
+**Matheus de Almeida Boava**  [![GitHub de Boava](https://img.shields.io/badge/GitHub-maboava-black?logo=github)](https://github.com/maboava)
+**Nichole Maria Furtado**  [![GitHub de Nichole](https://img.shields.io/badge/GitHub-Nichole_Furtado-black?logo=github)](https://github.com/Nichole-Furtado)
+**Rafael Rodrigues Pichibinski** [![GitHub de Rafael](https://img.shields.io/badge/GitHub-1Deatth-black?logo=github)](https://github.com/1Deatth)
+**Tais Mayme Ferrari**  [![GitHub de Tais](https://img.shields.io/badge/GitHub-Tais1905-black?logo=github)](https://github.com/Tais1905)
 
 ---
 
@@ -25,29 +25,35 @@ Trabalho apresentado ao Professor Me. **Bruno Luiz Schuster Rech**, como requisi
 
 # 😒 Divisão de Tarefas do Projeto (POO1 - 2º Bimestre)
 
-
 ### 1. Menu Inicial
+
 - Opções: Cadastrar Produto, Listar Produtos, Atualizar Produto, Excluir Produto, Sair.
 
 ### 2. Cadastro de Produtos (Create)
+
 - Campos: código (único), nome, descrição, preço, quantidade.
 
 ### 3. Listagem de Produtos (Read)
+
 - Exibir todos os produtos em uma JTable atualizada automaticamente.
 
 ### 4. Atualização de Produtos (Update)
+
 - Buscar produto pelo código.
 - Permitir alterar nome, descrição, preço e quantidade.
 
 ### 5. Exclusão de Produtos (Delete)
+
 - Excluir produto pelo código com verificação prévia.
 
 ### 6. Interface Gráfica (Swing)
+
 - JFrames e JDialogs.
 - Tabela dinâmica.
 - Botões, validações e mensagens amigáveis.
 
 ### 7. Validações Obrigatórias
+
 - Código único na criação.
 - Código existente na atualização e exclusão.
 - Preço e quantidade devem ser valores numéricos válidos.
@@ -59,7 +65,9 @@ Trabalho apresentado ao Professor Me. **Bruno Luiz Schuster Rech**, como requisi
 ---
 
 # 👩 Tais — Classe Produto + Manipulação de Arquivo TXT Base
+
 Responsável por:
+
 - Criar a classe Produto com os atributos: código, nome, descrição, preço, quantidade.
 - Criar a classe ProdutoRepositoryTXT com métodos:
   - salvarProduto(Produto p)
@@ -74,7 +82,9 @@ Responsável por:
 ---
 
 # 👨 Matheus — Tela de Cadastro (Create) + Salvamento Independente em TXT
+
 Responsável por:
+
 - Criar tela de cadastro com Swing.
 - Criar classe CadastroTXTManager.
 - Validar campos: código não vazio, preço numérico, quantidade numérica.
@@ -84,7 +94,9 @@ Responsável por:
 ---
 
 # 👨‍🎓 Kauan — Listagem (Read) via JTable + TXT Independente
+
 Responsável por:
+
 - Desenvolver uma tela exclusiva para listagem de produtos usando Swing.
 - Criar uma JTable configurada com colunas: Código, Nome, Descrição, Preço, Quantidade.
 - Implementar um método para ler os dados do arquivo:
@@ -97,7 +109,9 @@ Responsável por:
 ---
 
 # 👩‍💻 Nichole — Atualização (Update) + Manipulação de TXT Independente
+
 Responsável por:
+
 - Criar tela para atualização de produtos via código.
 - Ler, localizar e editar o produto no arquivo:
   update_temp.txt
@@ -107,7 +121,9 @@ Responsável por:
 ---
 
 # 👨 Rafael — Exclusão (Delete) + Menu Inicial Independente
+
 Responsável por:
+
 - Desenvolver uma tela específica para excluir produtos informando apenas o código.
 - Ler o arquivo delete_temp.txt, localizar a linha com o código informado e removê-la.
 - Regravar o arquivo sem a linha excluída, garantindo que nenhum outro dado seja alterado.
@@ -124,12 +140,14 @@ Responsável por:
 ---
 
 # 🔄 Integração Final (Somente no Fim)
+
 Após cada integrante finalizar seu módulo isolado, o grupo pode unificar:
+
 - classes,
 - telas,
 - métodos de acesso,
 - e arquivos TXT (opcional),
-para formar o sistema completo funcionando em conjunto.
+  para formar o sistema completo funcionando em conjunto.
 
 ---
 
@@ -143,26 +161,27 @@ O projeto propõe a implementação completa de um **CRUD (Create, Read, Update,
 
 ## 📘 Nosso Projeto
 
-O **Sistema de Cadastro de Produtos** é uma aplicação desktop construída em **Java 21 + Swing**, cujo propósito é permitir o **gerenciamento de produtos** de forma simples, visual e funcional.  
+O **Sistema de Cadastro de Produtos** é uma aplicação desktop construída em **Java 21 + Swing**, cujo propósito é permitir o **gerenciamento de produtos** de forma simples, visual e funcional.
 
-A interface apresenta um **menu inicial intuitivo** e uma **tabela dinâmica** para exibição dos dados.  
+A interface apresenta um **menu inicial intuitivo** e uma **tabela dinâmica** para exibição dos dados.
 Cada operação — **cadastro, listagem, atualização e exclusão** — é refletida instantaneamente na tela.
 
 ### 🔹 Estrutura do Sistema
 
-- **Menu Principal:**  
-  - ➕ Cadastrar Produto  
-  - 📋 Listar Produtos  
-  - ✏️ Atualizar Produto  
-  - 🗑️ Excluir Produto  
-  - 🚪 Sair  
+- **Menu Principal:**
 
-- **Campos de Cadastro:**  
-  - Código do produto (único)  
-  - Nome  
-  - Descrição  
-  - Preço  
-  - Quantidade em estoque  
+  - ➕ Cadastrar Produto
+  - 📋 Listar Produtos
+  - ✏️ Atualizar Produto
+  - 🗑️ Excluir Produto
+  - 🚪 Sair
+- **Campos de Cadastro:**
+
+  - Código do produto (único)
+  - Nome
+  - Descrição
+  - Preço
+  - Quantidade em estoque
 
 ---
 
@@ -170,38 +189,39 @@ Cada operação — **cadastro, listagem, atualização e exclusão** — é ref
 
 A aplicação segue princípios de **baixo acoplamento e alta coesão**, utilizando uma estrutura próxima ao padrão **MVC (Model-View-Controller)**:
 
-- **Model (`Produto`)**  
-  - Representa o domínio principal, encapsulando os atributos e comportamentos de cada produto.  
+- **Model (`Produto`)**
+
+  - Representa o domínio principal, encapsulando os atributos e comportamentos de cada produto.
   - Inclui validações e métodos auxiliares para exibição e comparação.
+- **Controller (`ProdutoController`)**
 
-- **Controller (`ProdutoController`)**  
-  - Responsável pelas operações CRUD.  
+  - Responsável pelas operações CRUD.
   - Gerencia a lista de produtos, garantindo unicidade de código e integridade dos dados.
+- **View (`ProdutoUI`)**
 
-- **View (`ProdutoUI`)**  
-  - Interface construída em `Swing` com menus, tabelas e formulários.  
-  - Usa `JTable` e `DefaultTableModel` para renderizar os dados em tempo real.  
+  - Interface construída em `Swing` com menus, tabelas e formulários.
+  - Usa `JTable` e `DefaultTableModel` para renderizar os dados em tempo real.
   - Cada ação (botão ou menu) chama diretamente os métodos do controller.
 
-📌 **Fluxo Geral:**  
+📌 **Fluxo Geral:**
 `Main` → inicia `ProdutoUI` → interage com `ProdutoController` → manipula `ArrayList<Produto>` e atualiza a tabela.
 
 ---
 
 ## 🧩 Regras e Validações
 
-- 🚫 O **código do produto** deve ser único.  
-- ⚠️ É necessário validar se o código existe antes de **atualizar** ou **excluir**.  
-- 💲 O **preço** deve ser numérico e positivo.  
-- 📦 A **quantidade** em estoque não pode ser negativa.  
+- 🚫 O **código do produto** deve ser único.
+- ⚠️ É necessário validar se o código existe antes de **atualizar** ou **excluir**.
+- 💲 O **preço** deve ser numérico e positivo.
+- 📦 A **quantidade** em estoque não pode ser negativa.
 - 💡 A tabela é atualizada automaticamente após cada operação.
 
 ---
 
 ## 💾 Persistência e Estrutura de Dados
 
-- Armazenamento em **memória (ArrayList)** para simplicidade e desempenho.  
-- A implementação pode evoluir futuramente para persistência em **arquivos texto** ou **banco de dados**.  
+- Armazenamento em **memória (ArrayList)** para simplicidade e desempenho.
+- A implementação pode evoluir futuramente para persistência em **arquivos texto** ou **banco de dados**.
 - Métodos centralizados de leitura, escrita e validação garantem integridade e consistência.
 
 ---
@@ -210,35 +230,35 @@ A aplicação segue princípios de **baixo acoplamento e alta coesão**, utiliza
 
 A interface gráfica foi construída com o **pacote `javax.swing`**, utilizando:
 
-- `JFrame` e `JPanel` para a estrutura principal.  
-- `JTable` com `DefaultTableModel` para exibição dos produtos.  
-- `JOptionPane` para formulários e mensagens de alerta/erro.  
+- `JFrame` e `JPanel` para a estrutura principal.
+- `JTable` com `DefaultTableModel` para exibição dos produtos.
+- `JOptionPane` para formulários e mensagens de alerta/erro.
 - `JButton`, `JTextField` e `JLabel` para inputs e ações.
 
 ### 🎨 Destaques Visuais
 
-- Layout responsivo e intuitivo.  
-- Atualização instantânea da tabela após cada ação.  
-- Validação visual (mensagens amigáveis).  
+- Layout responsivo e intuitivo.
+- Atualização instantânea da tabela após cada ação.
+- Validação visual (mensagens amigáveis).
 - Ícones e rótulos informativos para melhor navegação.
 
 ---
 
 ## ⚙️ Tecnologias Utilizadas
 
-| Tecnologia | Descrição |
-|-------------|------------|
-| ☕ **Java 21+** | Linguagem principal |
-| 🪟 **Swing** | Biblioteca para criação da interface gráfica |
-| 🧩 **POO (Encapsulamento, Herança, Polimorfismo)** | Paradigma aplicado |
-| 🧱 **MVC** | Padrão estrutural recomendado |
+| Tecnologia                                               | Descrição                                     |
+| -------------------------------------------------------- | ----------------------------------------------- |
+| ☕**Java 21+**                                     | Linguagem principal                             |
+| 🪟**Swing**                                        | Biblioteca para criação da interface gráfica |
+| 🧩**POO (Encapsulamento, Herança, Polimorfismo)** | Paradigma aplicado                              |
+| 🧱**MVC**                                          | Padrão estrutural recomendado                  |
 
 ---
 
 ## 🕓 Prazo e Avaliação
 
-- 📅 **Entrega:** até **02/12/2025 às 19h**  
-- 🧩 **Avaliação:** em sala, por ordem de chegada dos grupos  
+- 📅 **Entrega:** até **02/12/2025 às 19h**
+- 🧩 **Avaliação:** em sala, por ordem de chegada dos grupos
 - ⚠️ **Uso de ferramentas de IA** acarretará **desconto de 30% na nota**
 
 ---
@@ -259,15 +279,14 @@ A interface gráfica foi construída com o **pacote `javax.swing`**, utilizando:
 
 ---
 
-
 ## 📚 Referências
 
-- [Documentação Oficial do Java](https://docs.oracle.com/javase/8/docs/) — Guia completo da linguagem e APIs.  
-- [Java Swing Tutorial - Oracle](https://docs.oracle.com/javase/tutorial/uiswing/) — Desenvolvimento de interfaces gráficas.  
-- [Java Naming Conventions](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) — Convenções oficiais de nomenclatura.  
-- [Java Object-Oriented Programming Concepts](https://docs.oracle.com/javase/tutorial/java/concepts/) — Conceitos de POO.  
-- [GeeksforGeeks - Java Swing](https://www.geeksforgeeks.org/java-swing/) — Exemplos práticos de Swing.  
-- [Baeldung Java Tutorials](https://www.baeldung.com/java-tutorial) — Tutoriais práticos e modernos sobre Java.  
+- [Documentação Oficial do Java](https://docs.oracle.com/javase/8/docs/) — Guia completo da linguagem e APIs.
+- [Java Swing Tutorial - Oracle](https://docs.oracle.com/javase/tutorial/uiswing/) — Desenvolvimento de interfaces gráficas.
+- [Java Naming Conventions](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) — Convenções oficiais de nomenclatura.
+- [Java Object-Oriented Programming Concepts](https://docs.oracle.com/javase/tutorial/java/concepts/) — Conceitos de POO.
+- [GeeksforGeeks - Java Swing](https://www.geeksforgeeks.org/java-swing/) — Exemplos práticos de Swing.
+- [Baeldung Java Tutorials](https://www.baeldung.com/java-tutorial) — Tutoriais práticos e modernos sobre Java.
 
 ---
 
